@@ -76,7 +76,7 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 
 #### Display of All Available Networks
 
-![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/c4827ebd-64a2-4af3-86f3-2a0984a0c2ae)
+![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/fde65d29-bc76-4807-bc05-9f7b9cb4ec4a)
 
 - **Sorting:** Ability to sort data by any column in the table (e.g., SSID, Signal Level, Distance)
 
@@ -91,8 +91,8 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 - **Distance Graph:** Displays the distance to each WiFi network in the table
   - **X-Axis:** SSID of the WiFi network
   - **Y-Axis:** Distance (in meters)
-
 <br/>
+
 ## Usage
 
 To get started with the WiFi Network Analyzer, launch the application and navigate through the pages to view detailed information about your current WiFi connection and other available networks. Use the sorting and graphing features to analyze the data and make informed decisions to optimize your wireless connectivity.
