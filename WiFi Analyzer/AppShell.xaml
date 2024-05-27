@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WiFi_Analyzer.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:WiFi_Analyzer.Pages"
+    xmlns:all_networks="clr-namespace:WiFi_Analyzer.Pages.Networks"
+    Shell.FlyoutBehavior="Disabled">
+
+
+    <Tab Title="Home" Route="MainPage">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    </Tab>
+    <Tab Title="Connected" Route="ConnectedNetworkPage">
+        <ShellContent ContentTemplate="{DataTemplate local:ConnectedNetworkPage}" />
+    </Tab>
+    <Tab Title="Networks" Route="NetworksTablePage">
+        <ShellContent ContentTemplate="{DataTemplate all_networks:NetworksTablePage}" />
+    </Tab>
+
+    <ShellContent Route="NetworksGraphPage"
+                  ContentTemplate="{DataTemplate all_networks:NetworksGraphPage}" />
+</Shell>

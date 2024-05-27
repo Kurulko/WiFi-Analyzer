@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:WiFi_Analyzer.Converters"
+             x:Class="WiFi_Analyzer.Pages.MainPage"
+             Title="Home">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SpeedTestUnitConverter x:Key="SpeedTestUnitConverter"/>
+            <converters:SignalStrengthColorConverter x:Key="SignalStrengthColorConverter" />
+            <converters:CheckBoxColorConverter x:Key="CheckBoxColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Frame CornerRadius="10" Padding="5" Margin="5,5,5,5" BorderColor="White">
+        <Grid Margin="20,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Frame WidthRequest="400" BackgroundColor="#1E1E1E" CornerRadius="10" Padding="0" 
+                HorizontalOptions="Start" Margin="0,0,0,20">
+                    <Grid RowSpacing="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Network Details" Grid.Row="0" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2D2D30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" />
+
+                        <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="SSID" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.SSID}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+
+                        <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="Channel" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.Channel}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+
+                        <BoxView Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="Frequency" Grid.Row="6" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.FrequencyInMHz, StringFormat='{0} MHz'}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+
+                        <BoxView Grid.Row="7" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+
+                        <Label Text="Signal Strength" Grid.Row="8" Grid.RowSpan="3" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.SignalStrengthIndBm, StringFormat='{0} dBm'}" 
+                           TextColor="{Binding WiFiNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
+                           Grid.Row="8" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <BoxView Grid.Row="9" Grid.Column="1" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="{Binding WiFiNetwork.SignalStrengthInPercentage, StringFormat='{0}%'}" 
+                           TextColor="{Binding WiFiNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
+                           Grid.Row="10" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+
+                        <BoxView Grid.Row="11" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="MAC Address" Grid.Row="12" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.StringMacAddress}" Grid.Row="12" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+
+                        <BoxView Grid.Row="13" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="Distance" Grid.Row="14" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.DistanceInMeters, StringFormat='{0:F1} m'}" 
+                           TextColor="{Binding WiFiNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
+                           Grid.Row="14" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+
+                        <BoxView Grid.Row="15" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="Secured" Grid.Row="16" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Grid Grid.Row="16" Grid.Column="1" BackgroundColor="#252526">
+                            <CheckBox IsChecked="{Binding WiFiNetwork.IsSecured}" 
+                                  Color="{Binding WiFiNetwork.IsSecured, Converter={StaticResource CheckBoxColorConverter}}"
+                                  IsEnabled="False" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <BoxView Grid.Row="17" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
+                        <Label Text="Authentication" Grid.Row="18" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
+                        <Label Text="{Binding WiFiNetwork.AuthenticationAlgorithm}" Grid.Row="18" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="20">
+                <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" FontSize="20" FontAttributes="Bold">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding DownloadSpeed.Speed, StringFormat='Speed: {0:F2}'}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding DownloadSpeed.Unit, Converter={StaticResource SpeedTestUnitConverter}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Button Text="Speed" Command="{Binding GetDownloadSpeedCommand}" WidthRequest="150" HeightRequest="150" CornerRadius="80" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                   IsVisible="{Binding IsBusy}" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   Color="Blue"
+                   WidthRequest="50"
+                   HeightRequest="50"/>
+            </StackLayout>
+        </Grid>
+    </Frame>
+</ContentPage>

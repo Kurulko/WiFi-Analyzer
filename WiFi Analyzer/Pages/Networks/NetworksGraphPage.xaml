@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             x:Class="WiFi_Analyzer.Pages.Networks.NetworksGraphPage"
+             Title="Networks Graph">
+    <ScrollView>
+        <Frame CornerRadius="10" Padding="5" Margin="5,5,5,5" BorderColor="White">
+            <StackLayout Background="Black" Margin="10">
+                <StackLayout Orientation="Horizontal" >
+                    <Button Text="View Table" Clicked="NavigateToTablePage"  WidthRequest="150" HorizontalOptions="StartAndExpand" />
+                    <Button Text="Update" Clicked="UpdateWiFiNetworks" WidthRequest="150" HorizontalOptions="EndAndExpand" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,20,0,20">
+                    <Button Text="All" 
+                          Command="{Binding FilterByGHzCommand}"
+                          CommandParameter="All" 
+                          WidthRequest="100" />
+                    <Button Text="2.4 GHz" 
+                          Command="{Binding FilterByGHzCommand}"
+                          CommandParameter="2.4 GHz" 
+                          WidthRequest="100" />
+                    <Button Text="5 GHz" 
+                          Command="{Binding FilterByGHzCommand}"
+                          CommandParameter="5 GHz" 
+                          WidthRequest="100" />
+                    <Button Text="6 GHz" 
+                          Command="{Binding FilterByGHzCommand}"
+                          CommandParameter="6 GHz" 
+                          WidthRequest="100" />
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding HasNetworks}">
+                    <Label Text="dBm" FontSize="24" FontAttributes="Bold" 
+                         HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                         Margin="10,0,10,10" />
+                    <micro:ChartView x:Name="dBmChartView" HeightRequest="500" Margin="10"/>
+
+                    <Label Text="Distance" FontSize="24" FontAttributes="Bold" 
+                         HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                         Margin="10,0,10,10" />
+                    <micro:ChartView x:Name="distanceChartView" HeightRequest="500" Margin="10"/>
+                </StackLayout>
+
+                <Label IsVisible="{Binding HasNoNetworks}" Text="No network found" TextColor="Red" Margin="0, 20, 0, 0"
+                         HorizontalOptions="Center" VerticalOptions="Center"  FontAttributes="Bold" FontSize="30"/>
+
+            </StackLayout>
+        </Frame>
+    </ScrollView>
+</ContentPage>
