@@ -20,7 +20,7 @@ To get started with the WiFi Network Analyzer, follow the steps below:
    
    ```sh
    cd WiFi-Analyzer
-   start WiFiNetworkAnalyzer.sln
+   start WiFiAnalyzer.sln
 
 3. **Ensure you have the required .NET MAUI workload installed in Visual Studio:**
   - Go to Tools > Get Tools and Features...
