@@ -1,5 +1,12 @@
 # WiFi Analyzer
 
+# Contents
+
+- [Installation](#installation)
+- [Overview](#overview)
+- [Usage](#usage)
+<br/>
+
 ## Installation
 
 To get started with the WiFi Network Analyzer, follow the steps below:
@@ -22,12 +29,13 @@ To get started with the WiFi Network Analyzer, follow the steps below:
 4. **Build and run the project in Visual Studio:**
   - Select your target platform (Windows) from the platform selector.
   - Press F5 to build and run the application.
+<br/>
 
 ## Overview
 
 The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to provide detailed information and analysis of WiFi networks. It offers insights into various parameters of your WiFi connection and available networks.
 
-## Features
+## Pages
 
 ### 1. Home
 
@@ -84,6 +92,7 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
   - **X-Axis:** SSID of the WiFi network
   - **Y-Axis:** Distance (in meters)
 
+<br/>
 ## Usage
 
 To get started with the WiFi Network Analyzer, launch the application and navigate through the pages to view detailed information about your current WiFi connection and other available networks. Use the sorting and graphing features to analyze the data and make informed decisions to optimize your wireless connectivity.
