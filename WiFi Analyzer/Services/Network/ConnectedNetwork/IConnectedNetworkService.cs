@@ -10,7 +10,7 @@ namespace WiFi_Analyzer.Services.ConnectedNetwork;
 public interface IConnectedNetworkService
 {
     WiFiNetwork GetConnectedWiFiNetwork();
-    IPAddressInfo GetConnectedIPAddressInfo();
+    Task<IPAddressInfo> GetConnectedIPAddressInfo();
     NetworkSecurityInfo GetConnectedNetworkSecurityInfo();
     NetworkInfrastructureInfo GetConnectedNetworkInfrastructureInfo();
 }

@@ -1,4 +1,6 @@
-﻿namespace WiFi_Analyzer;
+﻿using WiFi_Analyzer.Helpers;
+
+namespace WiFi_Analyzer;
 
 public partial class AppShell : Shell
 {
@@ -9,7 +11,7 @@ public partial class AppShell : Shell
     {
         if (!Connectivity.Current.NetworkAccess.Equals(NetworkAccess.Internet))
         {
-            await Current.DisplayAlert("Network Error", "No internet connection detected.", "Exit");
+            await ErrorHandler.DisplayNetworkErrorAsync("No internet connection detected.");
             Environment.Exit(0);
         }
 

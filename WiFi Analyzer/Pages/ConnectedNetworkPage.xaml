@@ -11,10 +11,12 @@
             <converters:CheckBoxColorConverter x:Key="CheckBoxColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+    
 
     <ScrollView>
         <Frame CornerRadius="10" Padding="5" Margin="5,5,5,5" BorderColor="White">
-            <StackLayout  Margin="20,10,0,0">
+            <StackLayout Margin="20,10,0,0">
+                <Button Text="Update" Command="{Binding LoadDataCommand}" WidthRequest="150"/>
                 <Frame WidthRequest="400" BackgroundColor="#1E1E1E" CornerRadius="10" Padding="0" 
        HorizontalOptions="Start" Margin="0,0,0,20">
                     <Grid RowSpacing="1">
@@ -51,48 +53,48 @@
 
                         <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="SSID" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.SSID}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.SSID}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Channel" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.Channel}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.Channel}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Frequency" Grid.Row="6" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.FrequencyInMHz, StringFormat='{0} MHz'}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.FrequencyInMHz, StringFormat='{0} MHz'}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="7" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
 
                         <Label Text="Signal Strength" Grid.Row="8" Grid.RowSpan="3" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.SignalStrengthIndBm, StringFormat='{0} dBm'}" 
-                           TextColor="{Binding WiFiNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
+                        <Label Text="{Binding ConnectedNetwork.SignalStrengthIndBm, StringFormat='{0} dBm'}" 
+                           TextColor="{Binding ConnectedNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
                            Grid.Row="8" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
                         <BoxView Grid.Row="9" Grid.Column="1" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="{Binding WiFiNetwork.SignalStrengthInPercentage, StringFormat='{0}%'}" 
-                           TextColor="{Binding WiFiNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
+                        <Label Text="{Binding ConnectedNetwork.SignalStrengthInPercentage, StringFormat='{0}%'}" 
+                           TextColor="{Binding ConnectedNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
                            Grid.Row="10" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="11" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="MAC Address" Grid.Row="12" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.StringMacAddress}" Grid.Row="12" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.StringMacAddress}" Grid.Row="12" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="13" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Distance" Grid.Row="14" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.DistanceInMeters, StringFormat='{0:F1} m'}" 
-                           TextColor="{Binding WiFiNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
+                        <Label Text="{Binding ConnectedNetwork.DistanceInMeters, StringFormat='{0:F1} m'}" 
+                           TextColor="{Binding ConnectedNetwork.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
                            Grid.Row="14" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="15" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Secured" Grid.Row="16" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
                         <Grid Grid.Row="16" Grid.Column="1" BackgroundColor="#252526">
-                            <CheckBox IsChecked="{Binding WiFiNetwork.IsSecured}" 
-                                  Color="{Binding WiFiNetwork.IsSecured, Converter={StaticResource CheckBoxColorConverter}}"
+                            <CheckBox IsChecked="{Binding ConnectedNetwork.IsSecured}" 
+                                  Color="{Binding ConnectedNetwork.IsSecured, Converter={StaticResource CheckBoxColorConverter}}"
                                   IsEnabled="False" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Grid>
 
                         <BoxView Grid.Row="17" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Authentication" Grid.Row="18" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.AuthenticationAlgorithm}" Grid.Row="18" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.AuthenticationAlgorithm}" Grid.Row="18" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
                     </Grid>
                 </Frame>
 
@@ -121,15 +123,15 @@
 
                         <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Private IPv4" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.IPAddressInfo.PrivateIPv4}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.IPAddressInfo.PrivateIPv4}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Subnet Mask" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.IPAddressInfo.SubnetMask}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.IPAddressInfo.SubnetMask}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Public IPv4" Grid.Row="6" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.IPAddressInfo.PublicIPv4}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.IPAddressInfo.PublicIPv4}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
                     </Grid>
                 </Frame>
 
@@ -154,11 +156,11 @@
 
                         <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Authentication" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.NetworkSecurityInfo.Authentication, StringFormat='{0} (WPA2)'}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.NetworkSecurityInfo.Authentication, StringFormat='{0} (WPA2)'}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Encryption" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.NetworkSecurityInfo.Encryption}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.NetworkSecurityInfo.Encryption}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
                     </Grid>
                 </Frame>
 
@@ -187,15 +189,15 @@
 
                         <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Interface" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.NetworkInfrastructureInfo.Interface}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.NetworkInfrastructureInfo.Interface}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Type" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.NetworkInfrastructureInfo.InterfaceType}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.NetworkInfrastructureInfo.InterfaceType}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
 
                         <BoxView Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
                         <Label Text="Status" Grid.Row="6" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding WiFiNetwork.NetworkInfrastructureInfo.OperationalStatus}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
+                        <Label Text="{Binding ConnectedNetwork.NetworkInfrastructureInfo.OperationalStatus}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
                     </Grid>
                 </Frame>
             </StackLayout>

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WiFi_Analyzer.Models;
 using static NativeWifi.Wlan;
+using Windows.Media.Protection.PlayReady;
 
 namespace WiFi_Analyzer.Services.ConnectedNetwork;
 
@@ -60,12 +61,12 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
     }
 
 
-    public IPAddressInfo GetConnectedIPAddressInfo()
+    public async Task<IPAddressInfo> GetConnectedIPAddressInfo()
     {
         IPAddressInfo iPAddressInfo = new ();
 
         iPAddressInfo.PrivateIPv4 = GetPrivateIPv4();
-        iPAddressInfo.PublicIPv4 = GetPublicIPv4();
+        iPAddressInfo.PublicIPv4 = await GetPublicIPv4();
         iPAddressInfo.SubnetMask = GetSubnetMask();
 
         return iPAddressInfo;
@@ -98,10 +99,12 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
         return null!;
     }
 
-    string GetPublicIPv4()
+    async Task<string> GetPublicIPv4()
     {
-        using (WebClient webClient = new())
-            return webClient.DownloadString("http://icanhazip.com").Trim();
+        using (HttpClient httpClient = new())
+            return (await httpClient.GetStringAsync("http://icanhazip.com")).Trim();
+        //using (WebClient webClient = new())
+            //return webClient.DownloadString("http://icanhazip.com").Trim();
     }
 
 

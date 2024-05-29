@@ -7,7 +7,7 @@ using WiFi_Analyzer.Models;
 
 namespace WiFi_Analyzer.Helpers;
 
-public static class WiFiNetworksFilter
+public static class NetworksFilter
 {
     const double GHz_5 = 5;
     const double GHz_6 = 6;

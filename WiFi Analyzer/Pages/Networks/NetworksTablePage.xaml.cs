@@ -7,82 +7,31 @@ using System.Linq;
 using WiFi_Analyzer.Extensions;
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.Services.SpeedTest;
+using WiFi_Analyzer.ViewModels;
 
 namespace WiFi_Analyzer.Pages.Networks;
 
 public partial class NetworksTablePage : ContentPage
 {
-    readonly INetworksService networksService;
-
-    public ICommand SortCommand => new Command<string>(propertyName => SortBy(propertyName));
-    public ICommand FilterByGHzCommand => new Command<string>(parameter => FilterByGHz(parameter));
-
-    IEnumerable<WiFiNetwork> wifiNetworks = null!;
-    public IEnumerable<WiFiNetwork> FilteredWiFiNetworks { get; set; } = null!;
-
-    public bool HasNetworks => FilteredWiFiNetworks.Any();
-
-    public Dictionary<string, OrderBy> SortDirections { get; set; } = new ();
+    readonly NetworksTableViewModel networksTableViewModel = null!;
 
     public NetworksTablePage()
     {
-        networksService = ServiceHelper.GetService<INetworksService>()!;
+        networksTableViewModel = ServiceHelper.GetService<NetworksTableViewModel>()!;
 
         InitializeComponent();
 
-        GetNetworksDetails();
-
-        BindingContext = this;
+        BindingContext = networksTableViewModel;
     }
 
-    void SortBy(string propertyName)
+    protected override void OnAppearing()
     {
-        OrderBy currentDirection = SortDirections.ContainsKey(propertyName) ? SortDirections[propertyName] : OrderBy.Ascending;
-
-        OrderBy newDirection = ChangeOrderBy(currentDirection);
-
-        SortDirections = new Dictionary<string, OrderBy>();
-        SortDirections[propertyName] = newDirection;
-
-        FilteredWiFiNetworks = wifiNetworks.AsQueryable().OrderBy(propertyName, newDirection).ToList();
-
-        OnPropertyChanged(nameof(FilteredWiFiNetworks));
-        OnPropertyChanged(nameof(SortDirections));
+        base.OnAppearing();
+        UpdateNetworks();
     }
 
-
-    void FilterByGHz(string parameter)
-    {
-        FilteredWiFiNetworks = WiFiNetworksFilter.FilterByGHz(wifiNetworks, parameter);
-
-        OnPropertyChanged(nameof(HasNetworks));
-        OnPropertyChanged(nameof(FilteredWiFiNetworks));
-    }
-
-
-    OrderBy ChangeOrderBy(OrderBy orderBy)
-        => orderBy == OrderBy.Ascending ? OrderBy.Descending : OrderBy.Ascending;
-
-    async void GetNetworksDetails()
-    {
-        try
-        {
-            wifiNetworks = networksService.GetWiFiNetworks();
-            FilteredWiFiNetworks = wifiNetworks.ToList();
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-        }
-    }
-
-    void UpdateWiFiNetworks(object sender, EventArgs e)
-    {
-        GetNetworksDetails();
-
-        OnPropertyChanged(nameof(HasNetworks));
-        OnPropertyChanged(nameof(FilteredWiFiNetworks));
-    }
+    async void UpdateNetworks(object sender = default!, EventArgs e = default!)
+        => await networksTableViewModel.LoadDataAsync();
 
     async void NavigateToGraphPage(object sender, EventArgs e)
         => await Navigation.PushAsync(new NetworksGraphPage());

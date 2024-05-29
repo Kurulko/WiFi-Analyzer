@@ -1,35 +1,26 @@
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.Models;
 using WiFi_Analyzer.Services.ConnectedNetwork;
+using WiFi_Analyzer.ViewModels;
 
 namespace WiFi_Analyzer.Pages;
 
 public partial class ConnectedNetworkPage : ContentPage
 {
-    readonly IConnectedNetworkService connectedNetworkService;
-
-    public WiFiNetwork WiFiNetwork { get; private set; } = null!;
+    readonly ConnectedNetworkViewModel connectedNetworkViewModel = null!;
 
     public ConnectedNetworkPage()
     {
-        connectedNetworkService = ServiceHelper.GetService<IConnectedNetworkService>()!;
+        connectedNetworkViewModel = ServiceHelper.GetService<ConnectedNetworkViewModel>()!;
+
         InitializeComponent();
-        GetConnectedNetworkDetails();
-        BindingContext = this;
+
+        BindingContext = connectedNetworkViewModel;
     }
 
-    async void GetConnectedNetworkDetails()
+    protected override async void OnAppearing()
     {
-        try
-        {
-            WiFiNetwork = connectedNetworkService.GetConnectedWiFiNetwork();
-            WiFiNetwork.IPAddressInfo = connectedNetworkService.GetConnectedIPAddressInfo();
-            WiFiNetwork.NetworkSecurityInfo = connectedNetworkService.GetConnectedNetworkSecurityInfo();
-            WiFiNetwork.NetworkInfrastructureInfo = connectedNetworkService.GetConnectedNetworkInfrastructureInfo();
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-        }
+        base.OnAppearing();
+        await connectedNetworkViewModel.LoadDataAsync();
     }
 }
