@@ -32,7 +32,7 @@ public class NetworksGraphViewModel : NetworksViewModel
     }
 
     readonly SKColor backgroundColor = SKColor.Parse("#000000");
-    readonly TimeSpan animationDuration = new TimeSpan(0, 0, 2);
+    readonly TimeSpan animationDuration = new (0, 0, 2);
     readonly SKColor labelColor = SKColor.Parse("#FFFFFF");
 
     public Chart GetDBmChartView()
@@ -62,12 +62,13 @@ public class NetworksGraphViewModel : NetworksViewModel
 
         foreach (WiFiNetwork network in FilteredWiFiNetworks.OrderBy(n => n.Channel))
         {
-            SKColor color = GetColorBySignalStrength(network.SignalStrengthIndBm);
+            int signalStrength = network.NetworkStates!.SignalStrengthIndBm;
+            SKColor color = GetColorBySignalStrength(signalStrength);
 
-            entries.Add(new ChartEntry(network.SignalStrengthIndBm)
+            entries.Add(new ChartEntry(signalStrength)
             {
                 Label = $"{network.SSID} (Ch.{network.Channel})",
-                ValueLabel = $"{network.SignalStrengthIndBm} dBm",
+                ValueLabel = $"{signalStrength} dBm",
                 ValueLabelColor = color,
                 Color = color
             });
@@ -83,12 +84,15 @@ public class NetworksGraphViewModel : NetworksViewModel
 
         foreach (var network in FilteredWiFiNetworks)
         {
-            SKColor color = GetColorBySignalStrength(network.SignalStrengthIndBm);
+            NetworkStates metworkStates = network.NetworkStates!;
+            SKColor color = GetColorBySignalStrength(metworkStates.SignalStrengthIndBm);
 
-            entries.Add(new ChartEntry((float)network.DistanceInMeters)
+            double distance = metworkStates.DistanceInMeters;
+
+            entries.Add(new ChartEntry((float)distance)
             {
                 Label = network.SSID,
-                ValueLabel = $"{Math.Round(network.DistanceInMeters, 2)} m",
+                ValueLabel = $"{Math.Round(distance, 2)} m",
                 ValueLabelColor = color,
                 Color = color
             });

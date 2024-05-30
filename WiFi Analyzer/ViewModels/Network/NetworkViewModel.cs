@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WiFi_Analyzer.Models;
 using WiFi_Analyzer.Services.ConnectedNetwork;
+using WiFi_Analyzer.Services.Networks;
 
 namespace WiFi_Analyzer.ViewModels.Network;
 
 public abstract class NetworkViewModel : ViewModelBase
 {
     protected readonly IConnectedNetworkService connectedNetworkService;
+    protected readonly INetworksService networksService;
 
     WiFiNetwork? connectedNetwork;
     public WiFiNetwork? ConnectedNetwork
@@ -23,12 +25,26 @@ public abstract class NetworkViewModel : ViewModelBase
         }
     }
 
-    public NetworkViewModel(IConnectedNetworkService connectedNetworkService)
-        => this.connectedNetworkService = connectedNetworkService;
+    NetworkStates? networkStates;
+    public NetworkStates? NetworkStates
+    {
+        get => networkStates;
+        set
+        {
+            networkStates = value;
+            OnPropertyChanged(nameof(NetworkStates));
+        }
+    }
 
-    protected override Task GetDataAsync()
+    public NetworkViewModel(IConnectedNetworkService connectedNetworkService, INetworksService networksService)
+        => (this.connectedNetworkService, this.networksService) = (connectedNetworkService, networksService);
+
+    protected override async Task GetDataAsync()
     {
         ConnectedNetwork = connectedNetworkService.GetConnectedWiFiNetwork();
-        return Task.CompletedTask;
+           
+        await networksService.UpdateWiFiNetworkAsync(ConnectedNetwork);
+
+        NetworkStates = connectedNetworkService.GetConnectedNetworkStates();
     }
 }

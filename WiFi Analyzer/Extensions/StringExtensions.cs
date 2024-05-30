@@ -54,4 +54,7 @@ public static class StringExtensions
             return false;
         }
     }
+
+    public static string MacAddressToString(this byte[] macAddress)
+        => string.Join(":", macAddress.Select(b => b.ToString("X2")));
 }

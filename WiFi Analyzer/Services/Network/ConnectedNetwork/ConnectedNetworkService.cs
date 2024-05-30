@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using WiFi_Analyzer.Models;
 using static NativeWifi.Wlan;
 using Windows.Media.Protection.PlayReady;
+using WiFi_Analyzer.Services.Networks;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace WiFi_Analyzer.Services.ConnectedNetwork;
 
 public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
 {
-    public WiFiNetwork GetConnectedWiFiNetwork()
+    WlanBssEntry GetConnectedWlanBssEntry()
     {
         WlanClient client = new();
 
@@ -26,38 +28,56 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
                 Dot11Ssid ssid = wlanInterface.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
                 WlanBssEntry[] bssEntries = wlanInterface.GetNetworkBssList();
 
-                foreach (var bssEntry in bssEntries)
+                foreach (WlanBssEntry bssEntry in bssEntries)
                 {
                     string currentSSID = GetStringForSSID(ssid);
                     string bssEntrySSID = GetStringForSSID(bssEntry.dot11Ssid);
 
                     if (currentSSID == bssEntrySSID)
-                    {
-                        WiFiNetwork wiFiNetwork = new();
-
-                        long frequency = GetFrequencyFromChannel(bssEntry.chCenterFrequency);
-                        int signalStrength = bssEntry.rssi;
-
-                        wiFiNetwork.SSID = currentSSID;
-                        wiFiNetwork.Channel = GetChannelFromFrequency(frequency);
-                        wiFiNetwork.FrequencyInHz = frequency;
-                        wiFiNetwork.IsConnected = true;
-                        wiFiNetwork.SignalStrengthIndBm = signalStrength;
-                        wiFiNetwork.MacAddress = bssEntry.dot11Bssid;
-                        wiFiNetwork.DistanceInMeters = CalculateDistance(signalStrength, frequency);
-
-                        WlanAvailableNetwork wlanAvailableNetwork = GetWlanAvailableNetworkByProfileName(currentSSID)!.Value;
-
-                        wiFiNetwork.IsSecured = wlanAvailableNetwork.securityEnabled;
-                        wiFiNetwork.AuthenticationAlgorithm = wlanAvailableNetwork.dot11DefaultAuthAlgorithm;
-
-                        return wiFiNetwork;
-                    }
+                        return bssEntry;
                 }
             }
         }
 
-        throw new Exception("Something happened");
+        throw new Exception("No internet connection detected.");
+    }
+
+    public NetworkStates GetConnectedNetworkStates()
+    {
+        WlanBssEntry connectedBssEntry = GetConnectedWlanBssEntry();
+
+        long frequency = GetFrequencyFromChannel(connectedBssEntry.chCenterFrequency);
+        int signalStrength = connectedBssEntry.rssi;
+
+        NetworkStates networkStates = new();
+        networkStates.DistanceInMeters = CalculateDistance(signalStrength, frequency);
+        networkStates.IsConnected = true;
+        networkStates.SignalStrengthIndBm = signalStrength;
+
+        return networkStates;
+    }
+
+    public WiFiNetwork GetConnectedWiFiNetwork()
+    {
+        WlanBssEntry connectedBssEntry = GetConnectedWlanBssEntry();
+
+        WiFiNetwork wiFiNetwork = new();
+
+        long frequency = GetFrequencyFromChannel(connectedBssEntry.chCenterFrequency);
+        string currentSSID = GetStringForSSID(connectedBssEntry.dot11Ssid);
+
+        wiFiNetwork.SSID = currentSSID;
+        wiFiNetwork.Channel = GetChannelFromFrequency(frequency);
+        wiFiNetwork.FrequencyInHz = frequency;
+        wiFiNetwork.Protocol = FindProtocolString(connectedBssEntry);
+        wiFiNetwork.MacAddress = connectedBssEntry.dot11Bssid;
+
+        WlanAvailableNetwork wlanAvailableNetwork = GetWlanAvailableNetworkByProfileName(currentSSID)!.Value;
+
+        wiFiNetwork.IsSecured = wlanAvailableNetwork.securityEnabled;
+        wiFiNetwork.AuthenticationAlgorithm = wlanAvailableNetwork.dot11DefaultAuthAlgorithm;
+
+        return wiFiNetwork;
     }
 
 
@@ -103,8 +123,6 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
     {
         using (HttpClient httpClient = new())
             return (await httpClient.GetStringAsync("http://icanhazip.com")).Trim();
-        //using (WebClient webClient = new())
-            //return webClient.DownloadString("http://icanhazip.com").Trim();
     }
 
 

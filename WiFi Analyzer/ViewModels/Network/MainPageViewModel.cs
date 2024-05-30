@@ -7,6 +7,7 @@ using System.Windows.Input;
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.Models;
 using WiFi_Analyzer.Services.ConnectedNetwork;
+using WiFi_Analyzer.Services.Networks;
 using WiFi_Analyzer.Services.SpeedTest;
 using WiFi_Analyzer.ViewModels.Network;
 
@@ -55,12 +56,6 @@ public class MainPageViewModel : NetworkViewModel
     }
 
 
-    public MainPageViewModel(IConnectedNetworkService connectedNetworkService, ISpeedTestService speedTestService) : base(connectedNetworkService)
+    public MainPageViewModel(IConnectedNetworkService connectedNetworkService, ISpeedTestService speedTestService, INetworksService networksService) : base(connectedNetworkService, networksService)
         => this.speedTestService = speedTestService;
-
-    protected override async Task GetDataAsync()
-    {
-        ConnectedNetwork = connectedNetworkService.GetConnectedWiFiNetwork();
-        await Task.CompletedTask;
-    }
 }

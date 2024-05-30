@@ -6,6 +6,8 @@ using WiFi_Analyzer.Services.ConnectedNetwork;
 using WiFi_Analyzer.Services.Networks;
 using WiFi_Analyzer.Services.SpeedTest;
 using WiFi_Analyzer.ViewModels;
+using WiFi_Analyzer.Providers;
+using Microsoft.Extensions.Configuration;
 
 namespace WiFi_Analyzer;
 
@@ -26,14 +28,9 @@ public static class MauiProgram
 
         IServiceCollection services = builder.Services;
 
-        services.AddSingleton<IConnectedNetworkService, ConnectedNetworkService>();
-        services.AddSingleton<ISpeedTestService, SpeedTestService>();
-        services.AddSingleton<INetworksService, NetworksService>();
-
-        services.AddSingleton<ConnectedNetworkViewModel>();
-        services.AddSingleton<NetworksTableViewModel>();
-        services.AddSingleton<NetworksGraphViewModel>();
-        services.AddSingleton<MainPageViewModel>();
+        services.AddMSSQLServer();
+        services.AddServices();
+        services.AddViewModels();
 
 #if DEBUG
         builder.Logging.AddDebug();

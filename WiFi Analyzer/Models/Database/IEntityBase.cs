@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace WiFi_Analyzer.Models;
 
-public class IPAddressInfo
+public interface IEntityBase
 {
-    public string PrivateIPv4 { get; set; } = null!;
-    public string SubnetMask { get; set; } = null!;
-    public string? PublicIPv4 { get; set; }
+    [Key]
+    long Id { get; set; }
 }

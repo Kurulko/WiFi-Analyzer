@@ -8,6 +8,7 @@ using System.Windows.Input;
 using WiFi_Analyzer.Enums;
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.Models;
+using WiFi_Analyzer.Services;
 using WiFi_Analyzer.Services.ConnectedNetwork;
 using WiFi_Analyzer.Services.Networks;
 
@@ -39,14 +40,8 @@ public abstract class NetworksViewModel : ViewModelBase
 
     protected override async Task GetDataAsync()
     {
-        try
-        {
-            FilteredWiFiNetworks = Networks = networksService.GetWiFiNetworks();
-        }
-        catch (Exception ex)
-        {
-            await ErrorHandler.DisplayErrorAsync(ex.Message);
-        }
+        await networksService.UpdateWiFiNetworksAsync();
+        FilteredWiFiNetworks = Networks = await networksService.GetWiFiNetworksWithStatesAsync();
     }
 
     void FilterByGHz(string parameter)

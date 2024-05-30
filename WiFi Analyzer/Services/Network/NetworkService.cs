@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WiFi_Analyzer.Models;
 using static NativeWifi.Wlan;
 
 namespace WiFi_Analyzer.Services;
@@ -13,26 +14,45 @@ public abstract class NetworkService
     protected string GetStringForSSID(Dot11Ssid ssid)
         => Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength);
 
-    protected string FindProtocolString(Dot11PhyType type)
+    protected string FindProtocolString(WlanBssEntry bssEntry)
     {
-        Dictionary<int, string> phyTypes = new Dictionary<int, string>()
-        {
-            { 1, "802.11b" }, // DSSS
-            { 2, "802.11a" }, // OFDM
-            { 3, "802.11g" }, // ERP
-            { 4, "802.11n" }, // HT
-            { 5, "802.11ac" }, // VHT
-            { 6, "802.11ad" }, // DMG
-            { 7, "802.11aj" }, // China Millimeter Wave
-            { 8, "802.11ax" }, // HE
-            { 9, "802.11ay" }, // Next Generation 60 GHz
-            { 10, "802.11az" }, // Next Generation Positioning
-        };
-        int typeInt = (int)type;
-        string phyTypeString = phyTypes.ContainsKey(typeInt) ? phyTypes[typeInt] : "Unknown";
-        return phyTypeString;
-    }
+        int rssi = bssEntry.rssi;
+        uint chCenterFrequency = bssEntry.chCenterFrequency;
 
+        if (chCenterFrequency >= 2400000 && chCenterFrequency < 2500000)
+        {
+            // 2.4 GHz band
+            if (rssi <= -90)
+                return "802.11b";
+            else if (rssi <= -75)
+                return "802.11g";
+            else if (rssi <= -50)
+                return "802.11n";
+            else
+                return "802.11ax"; // Likely 802.11ax due to strong signal in 2.4 GHz
+        }
+        else if (chCenterFrequency >= 5000000 && chCenterFrequency < 6000000)
+        {
+            // 5 GHz band
+            if (rssi <= -70)
+                return "802.11a";
+            else if (rssi <= -50)
+                return "802.11n";
+            else
+                return "802.11ac/ax"; // Likely newer standard (ac or ax) due to strong signal
+        }
+        else if (chCenterFrequency >= 57000000 && chCenterFrequency <= 66000000)
+        {
+            // Tentative check for 60 GHz band (needs verification)
+            return "802.11ad";
+        }
+        else
+        {
+            // Frequency band not identified
+            return "Unknown";
+        }
+
+    }
 
     protected WlanAvailableNetwork? GetWlanAvailableNetworkByProfileName(string profileName)
     {
@@ -58,7 +78,7 @@ public abstract class NetworkService
     protected int GetChannelFromFrequency(long frequency)
     {
         int frequencyInMHz = FrequencyInMHz(frequency);
-        
+
         if (frequencyInMHz >= 2412 && frequencyInMHz <= 2472)
         {
             return (frequencyInMHz - 2407) / 5;
