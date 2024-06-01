@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="this"
+             x:Class="WiFi_Analyzer.Controls.BodyLabelView">
+    <Label Text="{Binding Text}" 
+           TextColor="{Binding TextColor}" 
+           BackgroundColor="#252526" 
+           HorizontalTextAlignment="Center" 
+           VerticalTextAlignment="Center" 
+           Padding="10,0" 
+           BindingContext="{x:Reference this}"/>
+</ContentView>

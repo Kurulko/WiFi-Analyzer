@@ -50,6 +50,7 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
         int signalStrength = connectedBssEntry.rssi;
 
         NetworkStates networkStates = new();
+
         networkStates.DistanceInMeters = CalculateDistance(signalStrength, frequency);
         networkStates.IsConnected = true;
         networkStates.SignalStrengthIndBm = signalStrength;

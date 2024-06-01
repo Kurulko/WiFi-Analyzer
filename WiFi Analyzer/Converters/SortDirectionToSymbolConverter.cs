@@ -14,7 +14,6 @@ public class SortDirectionToSymbolConverter : IValueConverter
     {
         if (value is OrderBy sortDirection)
             return sortDirection == OrderBy.Ascending ? "↑" : "↓";
-            //return sortDirection == OrderBy.Ascending ? "▲" : "▼";
 
         return null!;
     }

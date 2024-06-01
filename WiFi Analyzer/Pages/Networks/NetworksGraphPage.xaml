@@ -3,49 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="WiFi_Analyzer.Pages.Networks.NetworksGraphPage"
+             xmlns:controls="clr-namespace:WiFi_Analyzer.Controls"
+             ControlTemplate="{StaticResource CommonFrameTemplate}"
              Title="Networks Graph">
     <ScrollView>
-        <Frame CornerRadius="10" Padding="5" Margin="5,5,5,5" BorderColor="White">
-            <StackLayout Background="Black" Margin="10">
-                <StackLayout Orientation="Horizontal" >
-                    <Button Text="View Table" Clicked="NavigateToTablePage"  WidthRequest="150" HorizontalOptions="StartAndExpand" />
-                    <Button Text="Update" Clicked="UpdateNetworks" WidthRequest="150" HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,20,0,20">
-                    <Button Text="All" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="All" 
-                          WidthRequest="100" Clicked="UpdateCharts"/>
-                    <Button Text="2.4 GHz" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="2.4 GHz" 
-                          WidthRequest="100" Clicked="UpdateCharts"/>
-                    <Button Text="5 GHz" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="5 GHz" 
-                          WidthRequest="100" Clicked="UpdateCharts"/>
-                    <Button Text="6 GHz" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="6 GHz" 
-                          WidthRequest="100" Clicked="UpdateCharts"/>
-                </StackLayout>
+        <StackLayout Background="Black" Margin="10">
+            <Button Text="View Table" Clicked="NavigateToTablePage"  WidthRequest="150" HorizontalOptions="StartAndExpand" />
 
-                <StackLayout IsVisible="{Binding HasFilteredNetworks}">
-                    <Label Text="dBm" FontSize="24" FontAttributes="Bold" 
+            <controls:NetworksFilterByGHzView FilterByGHzCommand="{Binding FilterByGHzCommand}" />
+
+            <StackLayout IsVisible="{Binding HasFilteredNetworks}">
+                <Label Text="dBm" FontSize="24" FontAttributes="Bold" 
                          HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                          Margin="10,0,10,10" />
-                    <micro:ChartView x:Name="dBmChartView" HeightRequest="500" Margin="10"/>
+                <micro:ChartView HeightRequest="500" Margin="10" Chart="{Binding DBmChart}" />
 
-                    <Label Text="Distance" FontSize="24" FontAttributes="Bold" 
+                <Label Text="Distance" FontSize="24" FontAttributes="Bold" 
                          HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                          Margin="10,0,10,10" />
-                    <micro:ChartView x:Name="distanceChartView" HeightRequest="500" Margin="10"/>
-                </StackLayout>
-
-                <Label IsVisible="{Binding HasNoFilteredNetworks}" Text="No network found" TextColor="Red" Margin="0, 20, 0, 0"
-                         HorizontalOptions="Center" VerticalOptions="Center"  FontAttributes="Bold" FontSize="30"/>
-
+                <micro:ChartView HeightRequest="500" Margin="10" Chart="{Binding DistanceChart}"/>
             </StackLayout>
-        </Frame>
+
+            <Label IsVisible="{Binding HasNoFilteredNetworks}" Text="No network found" TextColor="Red" Margin="0, 20, 0, 0"
+                         HorizontalOptions="Center" VerticalOptions="Center"  FontAttributes="Bold" FontSize="25"/>
+        </StackLayout>
     </ScrollView>
 </ContentPage>

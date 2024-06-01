@@ -12,8 +12,15 @@ using WiFi_Analyzer.Services.ConnectedNetwork;
 
 namespace WiFi_Analyzer.ViewModels;
 
-public abstract class ViewModelBase : INotifyPropertyChanged
+public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
 {
+    Timer? networkStateTimer;
+
+    public ViewModelBase()
+        => networkStateTimer = new Timer(UpdateStates, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+
+    protected abstract void UpdateStates(object? _ = null);
+
     public event PropertyChangedEventHandler? PropertyChanged;
     public ICommand LoadDataCommand => new Command(async () =>
     {
@@ -43,4 +50,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    public void Dispose()
+        => networkStateTimer?.Dispose();
 }

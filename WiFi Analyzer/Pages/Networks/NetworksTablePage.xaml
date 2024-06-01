@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:WiFi_Analyzer.Converters"
              x:Class="WiFi_Analyzer.Pages.Networks.NetworksTablePage"
+             xmlns:controls="clr-namespace:WiFi_Analyzer.Controls"
+             ControlTemplate="{StaticResource CommonFrameTemplate}"
              Title="Networks">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:SortDirectionToSymbolConverter x:Key="SortDirectionToSymbolConverter" />
             <converters:SignalStrengthColorConverter x:Key="SignalStrengthColorConverter" />
             <converters:CheckBoxColorConverter x:Key="CheckBoxColorConverter" />
             <converters:LastSeenConverter x:Key="LastSeenConverter" />
@@ -14,241 +15,166 @@
     </ContentPage.Resources>
 
     <ScrollView>
-        <Frame CornerRadius="10" Padding="5" Margin="5,5,5,5" BorderColor="White">
-            <CollectionView ItemsSource="{Binding FilteredWiFiNetworks}">
-                <CollectionView.Header>
-                    <StackLayout Orientation="Vertical">
-                        <StackLayout Orientation="Horizontal" Margin="10">
-                            <Button Text="View Graph" Clicked="NavigateToGraphPage"  WidthRequest="150" HorizontalOptions="StartAndExpand" />
-                            <Button Text="Update" Clicked="UpdateNetworks" WidthRequest="150" HorizontalOptions="EndAndExpand" />
-                        </StackLayout>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,20,0,20">
-                            <Button Text="All" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="All"
-                          WidthRequest="100" />
-                            <Button Text="2.4 GHz" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="2.4 GHz" 
-                          WidthRequest="100" />
-                            <Button Text="5 GHz" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="5 GHz" 
-                          WidthRequest="100" />
-                            <Button Text="6 GHz" 
-                          Command="{Binding FilterByGHzCommand}"
-                          CommandParameter="6 GHz" 
-                          WidthRequest="100" />
-                        </StackLayout>
+        <CollectionView ItemsSource="{Binding FilteredWiFiNetworks}">
+            <CollectionView.Header>
+                <StackLayout Orientation="Vertical">
+                    <Button Text="View Graph" Clicked="NavigateToGraphPage"  WidthRequest="150" HorizontalOptions="StartAndExpand" Margin="10"/>
+                    
+                    <controls:NetworksFilterByGHzView FilterByGHzCommand="{Binding FilterByGHzCommand}"/>
 
+                    <controls:TitleLabelView Text="{Binding FilteredWiFiNetworks.Count, StringFormat='Total Networks: {0}'}" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
+                    
+                    <Grid Margin="0,10,0,0" IsVisible="{Binding HasFilteredNetworks}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                        <Label Text="{Binding FilteredWiFiNetworks.Count, StringFormat='Total Networks: {0}'}" FontAttributes="Bold" Margin="20,5,0,5" FontSize="20" />
-                        <Grid Margin="0,10,0,0" IsVisible="{Binding HasFilteredNetworks}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Frame Grid.Column="0" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="SSID" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[SSID], Converter={StaticResource SortDirectionToSymbolConverter}}" FontAttributes="Bold"/>
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="SSID" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="1" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Protocol" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[Protocol], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Protocol" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="2" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Frequency" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[FrequencyInHz], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="FrequencyInHz" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="3" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Connected" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[NetworkStates.IsConnected], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="IsConnected" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="4" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Channel" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[Channel], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Channel" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="5" Grid.ColumnSpan="2" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Signal Strength" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[NetworkStates.SignalStrengthIndBm], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="SignalStrengthIndBm" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="7" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="MAC Address" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[StringMacAddress], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="StringMacAddress" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="8" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Distance" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[DistanceInMeters], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="DistanceInMeters" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="9" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Secured" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[IsSecured], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="IsSecured" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="10" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Authentication" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[AuthenticationAlgorithm], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="AuthenticationAlgorithm" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                            <Frame Grid.Column="11" BorderColor="White" Padding="0" CornerRadius="0">
-                                <ContentView HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="Last Seen" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Path=SortDirections[LastSeen], Converter={StaticResource SortDirectionToSymbolConverter}}" />
-                                    </StackLayout>
-                                    <ContentView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="LastSeen" />
-                                    </ContentView.GestureRecognizers>
-                                </ContentView>
-                            </Frame>
-                        </Grid>
-                    </StackLayout>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Frame Grid.Column="0" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding SSID}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="1" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding Protocol}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="2" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding FrequencyInMHz, StringFormat='{0} MHz'}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="3" BorderColor="White" Padding="0" CornerRadius="0">
-                                <CheckBox IsChecked="{Binding NetworkStates.IsConnected}" IsEnabled="False" 
-                                      Color="{Binding NetworkStates.IsConnected, Converter={StaticResource CheckBoxColorConverter}}"
-                                      HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="4" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding Channel}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="5" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding NetworkStates.SignalStrengthIndBm, StringFormat='{0} dBm'}" 
-                                   TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
-                                   HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="6" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding NetworkStates.SignalStrengthInPercentage, StringFormat='{0}%'}" 
-                                   TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
-                                   HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="7" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding StringMacAddress}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="8" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding NetworkStates.DistanceInMeters, StringFormat='{0:F1} m'}" 
-                                   TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
-                                   HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="9" BorderColor="White" Padding="0" CornerRadius="0">
-                                <CheckBox IsChecked="{Binding IsSecured}" IsEnabled="False" 
-                                      Color="{Binding IsSecured, Converter={StaticResource CheckBoxColorConverter}}"
-                                      HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="10" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding AuthenticationAlgorithm}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                            <Frame Grid.Column="11" BorderColor="White" Padding="0" CornerRadius="0">
-                                <Label Text="{Binding LastSeen, Converter={StaticResource LastSeenConverter}}" HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
-                            </Frame>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Frame>
+                        <controls:SortableHeaderView Grid.Column="0"
+                                     HeaderText="SSID"
+                                     SortDirection="{Binding Path=SortDirections[SSID]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="SSID" />
+                        <controls:SortableHeaderView Grid.Column="1"
+                                     HeaderText="Protocol*"
+                                     SortDirection="{Binding Path=SortDirections[Protocol]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="Protocol" />
+                        <controls:SortableHeaderView Grid.Column="2"
+                                     HeaderText="Frequency"
+                                     SortDirection="{Binding Path=SortDirections[FrequencyInHz]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="FrequencyInHz" />
+                        <controls:SortableHeaderView Grid.Column="3"
+                                     HeaderText="Connected"
+                                     SortDirection="{Binding Path=SortDirections[NetworkStates.IsConnected]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="NetworkStates.IsConnected" />
+                        <controls:SortableHeaderView Grid.Column="4"
+                                     HeaderText="Channel"
+                                     SortDirection="{Binding Path=SortDirections[Channel]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="Channel" />
+                        <controls:SortableHeaderView Grid.Column="5" Grid.ColumnSpan="2"
+                                     HeaderText="Signal Strength"
+                                     SortDirection="{Binding Path=SortDirections[NetworkStates.SignalStrengthIndBm]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="NetworkStates.SignalStrengthIndBm" />
+                        <controls:SortableHeaderView Grid.Column="7"
+                                     HeaderText="BSSID"
+                                     SortDirection="{Binding Path=SortDirections[StringMacAddress]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="StringMacAddress" />
+                        <controls:SortableHeaderView Grid.Column="8"
+                                     HeaderText="Distance"
+                                     SortDirection="{Binding Path=SortDirections[NetworkStates.DistanceInMeters]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="NetworkStates.DistanceInMeters" />
+                        <controls:SortableHeaderView Grid.Column="9"
+                                     HeaderText="Secured"
+                                     SortDirection="{Binding Path=SortDirections[IsSecured]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="IsSecured" />
+                        <controls:SortableHeaderView Grid.Column="10"
+                                     HeaderText="Authentication"
+                                     SortDirection="{Binding Path=SortDirections[AuthenticationAlgorithm]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="AuthenticationAlgorithm" />
+                        <controls:SortableHeaderView Grid.Column="11"
+                                     HeaderText="Last Seen"
+                                     SortDirection="{Binding Path=SortDirections[LastSeen]}"
+                                     SortCommand="{Binding SortCommand}"
+                                     SortCommandParameter="LastSeen" />
+                    </Grid>
+                </StackLayout>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--The first row-->
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding SSID}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding Protocol}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding FrequencyInMHz, StringFormat='{0} MHz'}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
+                            <CheckBox IsChecked="{Binding NetworkStates.IsConnected}" IsEnabled="False" 
+                                  Color="{Binding NetworkStates.IsConnected, Converter={StaticResource CheckBoxColorConverter}}"
+                                  HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding Channel}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="5">
+                            <controls:RowLabelView 
+                                Text="{Binding NetworkStates.SignalStrengthIndBm, StringFormat='{0} dBm'}"
+                                TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="6">
+                            <controls:RowLabelView 
+                                Text="{Binding NetworkStates.SignalStrengthInPercentage, StringFormat='{0}%'}"
+                                TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="7" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding StringMacAddress}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="8" Grid.RowSpan="2">
+                            <controls:RowLabelView 
+                                Text="{Binding NetworkStates.DistanceInMeters, StringFormat='{0:F1} m'}" 
+                                TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="9" Grid.RowSpan="2">
+                            <CheckBox IsChecked="{Binding IsSecured}" IsEnabled="False" 
+                                  Color="{Binding IsSecured, Converter={StaticResource CheckBoxColorConverter}}" 
+                                  HorizontalOptions="Center" VerticalOptions="Center" Margin="5"/>
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="10" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding AuthenticationAlgorithm}" />
+                        </Frame>
+                        <Frame BorderColor="White" Padding="0" CornerRadius="0" Grid.Row="0" Grid.Column="11" Grid.RowSpan="2">
+                            <controls:RowLabelView Text="{Binding LastSeen, Converter={StaticResource LastSeenConverter}}" />
+                        </Frame>
+
+                        <!--The second row-->
+                        <Frame Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2">
+                            <controls:SignalStrengthSlider NetworkStates="{Binding NetworkStates}" />
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </ScrollView>
 </ContentPage>

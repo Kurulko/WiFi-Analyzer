@@ -28,7 +28,7 @@ public class NetworksTableViewModel : NetworksViewModel
         SortDirections = new Dictionary<string, OrderBy>();
         SortDirections[propertyName] = newDirection;
 
-        FilteredWiFiNetworks = Networks.AsQueryable().OrderBy(propertyName, newDirection);
+        FilteredWiFiNetworks = FilteredWiFiNetworks.AsQueryable().DynamicOrderBy(propertyName, newDirection).ToList();
 
         OnPropertyChanged(nameof(SortDirections));
     }

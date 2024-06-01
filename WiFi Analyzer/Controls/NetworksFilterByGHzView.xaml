@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="this"
+             x:Class="WiFi_Analyzer.Controls.NetworksFilterByGHzView">
+
+    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,20,0,20" BindingContext="{x:Reference this}">
+        <Button Text="All" 
+            x:Name="allGHzButton"
+            Command="{Binding FilterByGHzCommand}"
+            CommandParameter="All" 
+            WidthRequest="100" 
+            Clicked="OnGHzButtonClicked"/>
+        <Button Text="2.4 GHz" 
+            x:Name="twoDotFourGHzButton"
+            Command="{Binding FilterByGHzCommand}"
+            CommandParameter="2.4 GHz" 
+            WidthRequest="100"
+            Clicked="OnGHzButtonClicked"/>
+        <Button Text="5 GHz" 
+            x:Name="fiveGHzButton"
+            Command="{Binding FilterByGHzCommand}"
+            CommandParameter="5 GHz" 
+            WidthRequest="100"
+            Clicked="OnGHzButtonClicked"/>
+        <Button Text="6 GHz" 
+            x:Name="sixGHzButton"
+            Command="{Binding FilterByGHzCommand}"
+            CommandParameter="6 GHz" 
+            WidthRequest="100"
+            Clicked="OnGHzButtonClicked"/>
+    </StackLayout>
+</ContentView>

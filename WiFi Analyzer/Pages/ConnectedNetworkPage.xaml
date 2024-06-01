@@ -1,198 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:WiFi_Analyzer.Converters"
              x:Class="WiFi_Analyzer.Pages.ConnectedNetworkPage"
+             xmlns:controls="clr-namespace:WiFi_Analyzer.Controls"
+             ControlTemplate="{StaticResource CommonFrameTemplate}"
              Title="Connected">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:SignalStrengthColorConverter x:Key="SignalStrengthColorConverter" />
-            <converters:CheckBoxColorConverter x:Key="CheckBoxColorConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    
-
     <ScrollView>
-        <Frame CornerRadius="10" Padding="5" Margin="5,5,5,5" BorderColor="White">
-            <StackLayout Margin="20,10,0,0">
-                <Button Text="Update" Command="{Binding LoadDataCommand}" WidthRequest="150"/>
-                <Frame WidthRequest="400" BackgroundColor="#1E1E1E" CornerRadius="10" Padding="0" 
-       HorizontalOptions="Start" Margin="0,0,0,20">
-                    <Grid RowSpacing="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+        <StackLayout Margin="20,10,0,0">
+            <!-- Table NetworkDetails -->
+            <controls:NetworkDetailsView 
+                ConnectedNetwork="{Binding ConnectedNetwork}" 
+                NetworkStates="{Binding NetworkStates}"/>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+            <!-- Table IPAddressInfo -->
+            <controls:IPAddressInfoView 
+                IPAddressInfo="{Binding IPAddressInfo}" />
 
-                        <Label Text="Network Details" Grid.Row="0" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2D2D30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <!-- Table NetworkSecurityInfo -->
+            <controls:NetworkSecurityInfoView 
+                NetworkSecurityInfo="{Binding NetworkSecurityInfo}" />
 
-                        <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="SSID" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding ConnectedNetwork.SSID}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Channel" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding ConnectedNetwork.Channel}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Frequency" Grid.Row="6" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding ConnectedNetwork.FrequencyInMHz, StringFormat='{0} MHz'}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="7" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-
-                        <Label Text="Signal Strength" Grid.Row="8" Grid.RowSpan="3" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding NetworkStates.SignalStrengthIndBm, StringFormat='{0} dBm'}" 
-                           TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
-                           Grid.Row="8" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-                        <BoxView Grid.Row="9" Grid.Column="1" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="{Binding NetworkStates.SignalStrengthInPercentage, StringFormat='{0}%'}" 
-                           TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
-                           Grid.Row="10" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="11" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="MAC Address" Grid.Row="12" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding ConnectedNetwork.StringMacAddress}" Grid.Row="12" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="13" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Distance" Grid.Row="14" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding NetworkStates.DistanceInMeters, StringFormat='{0:F1} m'}" 
-                           TextColor="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthColorConverter}}"
-                           Grid.Row="14" Grid.Column="1" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="15" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Secured" Grid.Row="16" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Grid Grid.Row="16" Grid.Column="1" BackgroundColor="#252526">
-                            <CheckBox IsChecked="{Binding ConnectedNetwork.IsSecured}" 
-                                  Color="{Binding ConnectedNetwork.IsSecured, Converter={StaticResource CheckBoxColorConverter}}"
-                                  IsEnabled="False" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </Grid>
-
-                        <BoxView Grid.Row="17" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Authentication" Grid.Row="18" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding ConnectedNetwork.AuthenticationAlgorithm}" Grid.Row="18" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-                    </Grid>
-                </Frame>
-
-                <!-- Table IPAddressInfo -->
-                <Frame WidthRequest="400" BackgroundColor="#1E1E1E" CornerRadius="10" Padding="0" 
-               HorizontalOptions="Start" Margin="0,0,0,20">
-                    <Grid RowSpacing="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="IP Address Details" Grid.Row="0" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2D2D30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" />
-
-                        <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Private IPv4" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding IPAddressInfo.PrivateIPv4}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Subnet Mask" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding IPAddressInfo.SubnetMask}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Public IPv4" Grid.Row="6" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding IPAddressInfo.PublicIPv4}" Grid.Row="6" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-                    </Grid>
-                </Frame>
-
-                <!-- Table NetworkSecurityInfo -->
-                <Frame WidthRequest="400" BackgroundColor="#1E1E1E" CornerRadius="10" Padding="0" 
-               HorizontalOptions="Start" Margin="0,0,0,20">
-                    <Grid RowSpacing="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="Security" Grid.Row="0" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2D2D30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" />
-
-                        <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Authentication" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding NetworkSecurityInfo.Authentication, StringFormat='{0} (WPA2)'}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Encryption" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding NetworkSecurityInfo.Encryption}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-                    </Grid>
-                </Frame>
-
-                <!-- Table NetworkInfrastructureInfo -->
-                <Frame WidthRequest="400" BackgroundColor="#1E1E1E" CornerRadius="10" Padding="0" 
-               HorizontalOptions="Start" Margin="0,0,0,20">
-                    <Grid RowSpacing="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="Infrastructure" Grid.Row="0" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2D2D30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" />
-
-                        <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Interface" Grid.Row="2" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding NetworkInfrastructureInfo.Interface}" Grid.Row="2" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-
-                        <BoxView Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="#3D3D3D" HeightRequest="1" />
-                        <Label Text="Type" Grid.Row="4" Grid.Column="0" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="10,0" />
-                        <Label Text="{Binding NetworkInfrastructureInfo.InterfaceType}" Grid.Row="4" Grid.Column="1" TextColor="White" BackgroundColor="#252526" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="10,0" />
-                    </Grid>
-                </Frame>
-            </StackLayout>
-        </Frame>
+            <!-- Table NetworkInfrastructureInfo -->
+            <controls:NetworkInfrastructureInfoView 
+                NetworkInfrastructureInfo="{Binding NetworkInfrastructureInfo}"/>
+        </StackLayout>
     </ScrollView>
 </ContentPage>

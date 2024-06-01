@@ -30,21 +30,15 @@ public partial class NetworksGraphPage : ContentPage
         UpdateNetworks();
     }
 
-    async void UpdateNetworks(object sender = default!, EventArgs e = default!)
-    {
-        await networksGraphViewModel.LoadDataAsync();
-        UpdateCharts();
-    }
-
-    void UpdateCharts(object sender = default!, EventArgs e = default!)
-    {
-        if (networksGraphViewModel.HasFilteredNetworks)
-        {
-            dBmChartView.Chart = networksGraphViewModel.GetDBmChartView();
-            distanceChartView.Chart = networksGraphViewModel.GetDistanceChartView();
-        }
-    }
+    async void UpdateNetworks()
+         => await networksGraphViewModel.LoadDataAsync();
 
     async void NavigateToTablePage(object sender, EventArgs e)
         => await Navigation.PushAsync(new NetworksTablePage());
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        networksGraphViewModel.Dispose();
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WiFi_Analyzer.Models;
@@ -39,12 +40,15 @@ public abstract class NetworkViewModel : ViewModelBase
     public NetworkViewModel(IConnectedNetworkService connectedNetworkService, INetworksService networksService)
         => (this.connectedNetworkService, this.networksService) = (connectedNetworkService, networksService);
 
+    protected override void UpdateStates(object? state = null)
+        => NetworkStates = connectedNetworkService.GetConnectedNetworkStates();
+
     protected override async Task GetDataAsync()
     {
         ConnectedNetwork = connectedNetworkService.GetConnectedWiFiNetwork();
            
         await networksService.UpdateWiFiNetworkAsync(ConnectedNetwork);
 
-        NetworkStates = connectedNetworkService.GetConnectedNetworkStates();
+        UpdateStates();
     }
 }

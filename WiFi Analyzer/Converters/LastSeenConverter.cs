@@ -14,24 +14,30 @@ public class LastSeenConverter : IValueConverter
     {
         if (value is DateTime lastSeen)
         {
-            DateTime now =  DateTime.Now;
+            TimeSpan difference = DateTime.Now.Subtract(lastSeen);
 
-            bool isThisYear = now.Year == lastSeen.Year;
-            bool isThisMonth = isThisYear && now.Month == lastSeen.Month;
-            bool isThisDay = isThisMonth & now.Day == lastSeen.Day;
-            bool isThisHour = isThisDay & now.Hour == lastSeen.Hour;
-            bool isThisMinute = isThisHour & now.Minute == lastSeen.Minute;
+            bool isThisYear = difference.TotalDays <= 365;
+            bool isThisMonth = difference.TotalDays <= 31;
+            bool isThisWeek = difference.TotalDays <= 7;
+            bool isThisDay = difference.TotalHours <= 24;
+            bool isThisHour = difference.TotalMinutes <= 60;
+            bool isRecently = difference.TotalMinutes <= 5;
+            bool isNow = difference.TotalMinutes <= 1;
 
-            string lastSeenStr = string.Empty;
+            string lastSeenStr;
 
-            if (isThisMinute)
+            if (isNow)
                 lastSeenStr = "now";
+            else if (isRecently)
+                lastSeenStr = "recently";
             else if (isThisHour)
                 lastSeenStr = "this hour";
             else if (isThisDay)
-                lastSeenStr = "this day";
+                lastSeenStr = "today";
+            else if (isThisWeek)
+                lastSeenStr = "this week";
             else if (isThisMonth)
-                lastSeenStr = "this mont";
+                lastSeenStr = "this month";
             else if (isThisYear)
                 lastSeenStr = "this year";
             else

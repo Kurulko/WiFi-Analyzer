@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.Models;
 using WiFi_Analyzer.Services.Networks;
@@ -15,6 +16,28 @@ public class NetworksGraphViewModel : NetworksViewModel
 {
     public bool HasNoFilteredNetworks => !HasFilteredNetworks;
 
+    Chart dBmChart = null!;
+    public Chart DBmChart
+    {
+        get => dBmChart;
+        set
+        {
+            dBmChart = value;
+            OnPropertyChanged(nameof(DBmChart));
+        }
+    }
+
+    Chart distanceChart = null!;
+    public Chart DistanceChart
+    {
+        get => distanceChart;
+        set
+        {
+            distanceChart = value;
+            OnPropertyChanged(nameof(DistanceChart));
+        }
+    }
+
     public override IEnumerable<WiFiNetwork> FilteredWiFiNetworks
     {
         get => filteredWiFiNetworks;
@@ -24,6 +47,7 @@ public class NetworksGraphViewModel : NetworksViewModel
             OnPropertyChanged(nameof(FilteredWiFiNetworks));
             OnPropertyChanged(nameof(HasFilteredNetworks));
             OnPropertyChanged(nameof(HasNoFilteredNetworks));
+            UpdateCharts();
         }
     }
 
@@ -31,30 +55,69 @@ public class NetworksGraphViewModel : NetworksViewModel
     {
     }
 
+    void UpdateCharts()
+    {
+        if (HasFilteredNetworks)
+        {
+            DBmChart = GetDBmChartView();
+            DistanceChart = GetDistanceChartView();
+        }
+        else
+        {
+            DBmChart = null!; 
+            DistanceChart = null!; 
+        }
+    }
+
     readonly SKColor backgroundColor = SKColor.Parse("#000000");
     readonly TimeSpan animationDuration = new (0, 0, 2);
     readonly SKColor labelColor = SKColor.Parse("#FFFFFF");
 
     public Chart GetDBmChartView()
-       => new LineChart()
-       {
-           Entries = GetDBMEntries(),
-           BackgroundColor = backgroundColor,
-           AnimationDuration = animationDuration,
-           LabelColor = labelColor,
-           LabelOrientation = Orientation.Horizontal,
-           ValueLabelOrientation = Orientation.Horizontal,
-       };
+    {
+        var entries = GetDBMEntries();
+        Chart chart = entries.Count() == 1 ?
+            new PointChart()
+            {
+                Entries = entries,
+                BackgroundColor = backgroundColor,
+                AnimationDuration = animationDuration,
+                LabelColor = labelColor,
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+            } :
+            new LineChart()
+            {
+                Entries = entries,
+                BackgroundColor = backgroundColor,
+                AnimationDuration = animationDuration,
+                LabelColor = labelColor,
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+            };
+        return chart;
+    }
 
     public Chart GetDistanceChartView()
-        => new RadarChart()
-        {
-            Entries = GetDistanceEntries(),
-            BackgroundColor = backgroundColor,
-            AnimationDuration = animationDuration,
-            LabelColor = labelColor,
-        };
-
+    {
+        var entries = GetDistanceEntries();
+        Chart chart = entries.Count() == 1 ?
+            new PointChart() {
+                Entries = entries,
+                BackgroundColor = backgroundColor,
+                AnimationDuration = animationDuration,
+                LabelColor = labelColor,
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+            } :
+            new RadarChart() {
+                Entries = entries,
+                BackgroundColor = backgroundColor,
+                AnimationDuration = animationDuration,
+                LabelColor = labelColor,
+            };
+        return chart;
+    }
 
     IEnumerable<ChartEntry> GetDBMEntries()
     {
@@ -62,21 +125,24 @@ public class NetworksGraphViewModel : NetworksViewModel
 
         foreach (WiFiNetwork network in FilteredWiFiNetworks.OrderBy(n => n.Channel))
         {
-            int signalStrength = network.NetworkStates!.SignalStrengthIndBm;
-            SKColor color = GetColorBySignalStrength(signalStrength);
-
-            entries.Add(new ChartEntry(signalStrength)
+            NetworkStates? networkStates = network.NetworkStates;
+            if (networkStates is not null)
             {
-                Label = $"{network.SSID} (Ch.{network.Channel})",
-                ValueLabel = $"{signalStrength} dBm",
-                ValueLabelColor = color,
-                Color = color
-            });
+                int signalStrength = networkStates.SignalStrengthIndBm;
+                SKColor color = GetColorBySignalStrength(signalStrength);
+
+                entries.Add(new ChartEntry(signalStrength)
+                {
+                    Label = $"{network.SSID} (Ch.{network.Channel})",
+                    ValueLabel = $"{signalStrength} dBm",
+                    ValueLabelColor = color,
+                    Color = color
+                });
+            }
         }
 
         return entries;
     }
-
 
     IEnumerable<ChartEntry> GetDistanceEntries()
     {
@@ -84,18 +150,21 @@ public class NetworksGraphViewModel : NetworksViewModel
 
         foreach (var network in FilteredWiFiNetworks)
         {
-            NetworkStates metworkStates = network.NetworkStates!;
-            SKColor color = GetColorBySignalStrength(metworkStates.SignalStrengthIndBm);
-
-            double distance = metworkStates.DistanceInMeters;
-
-            entries.Add(new ChartEntry((float)distance)
+            NetworkStates? networkStates = network.NetworkStates;
+            if (networkStates is not null)
             {
-                Label = network.SSID,
-                ValueLabel = $"{Math.Round(distance, 2)} m",
-                ValueLabelColor = color,
-                Color = color
-            });
+                SKColor color = GetColorBySignalStrength(networkStates.SignalStrengthIndBm);
+
+                double distance = networkStates.DistanceInMeters;
+
+                entries.Add(new ChartEntry((float)distance)
+                {
+                    Label = network.SSID,
+                    ValueLabel = $"{Math.Round(distance, 2)} m",
+                    ValueLabelColor = color,
+                    Color = color
+                });
+            }
         }
 
         return entries;

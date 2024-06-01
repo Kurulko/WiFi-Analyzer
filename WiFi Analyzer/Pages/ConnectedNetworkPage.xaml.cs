@@ -23,4 +23,10 @@ public partial class ConnectedNetworkPage : ContentPage
         base.OnAppearing();
         await connectedNetworkViewModel.LoadDataAsync();
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        connectedNetworkViewModel.Dispose();
+    }
 }

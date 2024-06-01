@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="this"
+             x:Class="WiFi_Analyzer.Controls.SignalStrengthSlider">
+
+    <Slider Minimum="{Binding MinSignalStrengthIndBm}"
+            Maximum="{Binding MaxSignalStrengthIndBm}" 
+            Value="{Binding NetworkStates.SignalStrengthIndBm}" 
+            MinimumTrackColor="MediumVioletRed"
+            MaximumTrackColor="LightGreen"
+            WidthRequest="170"
+            ThumbColor="DeepPink"
+            IsEnabled="False" 
+            IsVisible="{Binding HasNetworkStates}"
+            BindingContext="{x:Reference this}" />
+</ContentView>

@@ -27,4 +27,10 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
         await mainPageViewModel.LoadDataAsync();
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        mainPageViewModel.Dispose();
+    }
 }

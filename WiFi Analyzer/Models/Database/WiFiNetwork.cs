@@ -22,6 +22,7 @@ public class WiFiNetwork : IEntityBase
 
     [Required]
     public string Protocol { get; set; } = null!;
+
     public DateTime LastSeen { get; set; }
 
     [Required]

@@ -30,9 +30,15 @@ public partial class NetworksTablePage : ContentPage
         UpdateNetworks();
     }
 
-    async void UpdateNetworks(object sender = default!, EventArgs e = default!)
+    async void UpdateNetworks()
         => await networksTableViewModel.LoadDataAsync();
 
     async void NavigateToGraphPage(object sender, EventArgs e)
         => await Navigation.PushAsync(new NetworksGraphPage());
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        networksTableViewModel.Dispose();
+    }
 }

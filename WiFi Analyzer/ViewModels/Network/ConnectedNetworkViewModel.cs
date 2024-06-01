@@ -53,7 +53,6 @@ public class ConnectedNetworkViewModel : NetworkViewModel
 
     protected override async Task GetDataAsync()
     {
-        //ConnectedNetwork = connectedNetworkService.GetConnectedWiFiNetwork();
         await base.GetDataAsync();
 
         IPAddressInfo = await connectedNetworkService.GetConnectedIPAddressInfo();

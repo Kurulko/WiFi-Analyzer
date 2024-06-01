@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:WiFi_Analyzer.Converters"
+             x:Name="this"
+             x:Class="WiFi_Analyzer.Controls.SpeedTestView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:SpeedTestUnitConverter x:Key="SpeedTestUnitConverter"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <StackLayout BindingContext="{x:Reference this}">
+        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" FontSize="20" FontAttributes="Bold">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="{Binding DownloadSpeed.Speed, StringFormat='Speed: {0:F2}'}" />
+                    <Span Text=" " />
+                    <Span Text="{Binding DownloadSpeed.Unit, Converter={StaticResource SpeedTestUnitConverter}}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Button Text="Speed" Command="{Binding GetDownloadSpeedCommand}" WidthRequest="150" HeightRequest="150" CornerRadius="80" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                   IsVisible="{Binding IsBusy}" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   Color="Blue"
+                   WidthRequest="50"
+                   HeightRequest="50"/>
+    </StackLayout>
+</ContentView>

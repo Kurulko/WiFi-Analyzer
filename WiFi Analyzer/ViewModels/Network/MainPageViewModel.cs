@@ -40,6 +40,11 @@ public class MainPageViewModel : NetworkViewModel
     }
 
     public ICommand GetDownloadSpeedCommand => new Command(async () => await GetDownloadSpeedAsync());
+
+    public MainPageViewModel(IConnectedNetworkService connectedNetworkService, ISpeedTestService speedTestService, INetworksService networksService) : base(connectedNetworkService, networksService)
+            => this.speedTestService = speedTestService;
+
+
     public async Task GetDownloadSpeedAsync()
     {
         try
@@ -54,8 +59,4 @@ public class MainPageViewModel : NetworkViewModel
             await ErrorHandler.DisplayErrorAsync(ex.Message);
         }
     }
-
-
-    public MainPageViewModel(IConnectedNetworkService connectedNetworkService, ISpeedTestService speedTestService, INetworksService networksService) : base(connectedNetworkService, networksService)
-        => this.speedTestService = speedTestService;
 }

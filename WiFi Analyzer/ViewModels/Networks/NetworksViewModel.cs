@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -44,7 +45,10 @@ public abstract class NetworksViewModel : ViewModelBase
         FilteredWiFiNetworks = Networks = await networksService.GetWiFiNetworksWithStatesAsync();
     }
 
-    void FilterByGHz(string parameter)
+    protected override async void UpdateStates(object? state = null)
+        => FilteredWiFiNetworks = Networks = await networksService.GetWiFiNetworksWithStatesAsync();
+
+    protected void FilterByGHz(string parameter)
         => FilteredWiFiNetworks = NetworksFilter.FilterByGHz(Networks, parameter);
 }
 
