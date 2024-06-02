@@ -6,6 +6,7 @@
 
     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,20,0,20" BindingContext="{x:Reference this}">
         <Button Text="All" 
+            BackgroundColor="Gray"
             x:Name="allGHzButton"
             Command="{Binding FilterByGHzCommand}"
             CommandParameter="All" 

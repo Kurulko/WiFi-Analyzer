@@ -51,7 +51,6 @@ public abstract class NetworkService
             // Frequency band not identified
             return "Unknown";
         }
-
     }
 
     protected WlanAvailableNetwork? GetWlanAvailableNetworkByProfileName(string profileName)

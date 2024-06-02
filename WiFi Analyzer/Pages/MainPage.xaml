@@ -12,12 +12,16 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <StackLayout Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <StackLayout Grid.Column="0" 
+                         HorizontalOptions="CenterAndExpand" 
+                         VerticalOptions="CenterAndExpand">
                 <controls:NetworkDetailsView 
                     ConnectedNetwork="{Binding ConnectedNetwork}"
                     NetworkStates="{Binding NetworkStates}"/>
             </StackLayout>
-            <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="20">
+            <StackLayout Grid.Column="1" 
+                         HorizontalOptions="CenterAndExpand" 
+                         VerticalOptions="CenterAndExpand" Spacing="20">
                 <controls:SpeedTestView 
                     DownloadSpeed="{Binding DownloadSpeed}"
                     IsBusy="{Binding IsBusy}"

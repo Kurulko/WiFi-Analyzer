@@ -8,7 +8,8 @@
              Title="Networks Graph">
     <ScrollView>
         <StackLayout Background="Black" Margin="10">
-            <Button Text="View Table" Clicked="NavigateToTablePage"  WidthRequest="150" HorizontalOptions="StartAndExpand" />
+            <Button Text="View Table" Clicked="NavigateToTablePage"
+                    WidthRequest="150" HorizontalOptions="StartAndExpand" />
 
             <controls:NetworksFilterByGHzView FilterByGHzCommand="{Binding FilterByGHzCommand}" />
 
@@ -24,8 +25,9 @@
                 <micro:ChartView HeightRequest="500" Margin="10" Chart="{Binding DistanceChart}"/>
             </StackLayout>
 
-            <Label IsVisible="{Binding HasNoFilteredNetworks}" Text="No network found" TextColor="Red" Margin="0, 20, 0, 0"
-                         HorizontalOptions="Center" VerticalOptions="Center"  FontAttributes="Bold" FontSize="25"/>
+            <Label IsVisible="{Binding HasNoFilteredNetworks}" Text="No network found" 
+                   TextColor="Red" Margin="0, 20, 0, 0"
+                   HorizontalOptions="Center" VerticalOptions="Center"  FontAttributes="Bold" FontSize="25"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>
