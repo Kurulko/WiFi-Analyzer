@@ -71,7 +71,7 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 
 #### Infrastructure
 - **Interfaces:** Refers to various network interfaces on your device, typically only showing WiFi interface information on this page
-- **Type:** Type of WiFi network standard (e.g., 802.11n, 802.11ac)
+- **Type:** Type of network interfaces (e.g., Ethernet, Token-Ring, FDDI, Wireless80211, DSL)
 
 ### 3. Networks
 
