@@ -39,7 +39,7 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 
 ### 1. Home
 
-![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/53b4edd9-8e08-43b7-ad2d-499e8eca0858)
+![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/d3e29c47-7adf-4934-97a2-2c52bd62eb70)
 
 - **SSID:** Name of the WiFi network
 - **Channel:** Channel number of the WiFi network
@@ -48,13 +48,14 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 - **BSSID:** MAC address of the access point
 - **Distance:** Approximate distance to the access point
 - **Secured:** is secured WiFi network
+- **Protocol:** WiFi network protocol (for example, 802.11a/b/g/n/ac/ax)
 - **Authentication:** Type of network authentication (PSK, EAP)
   
 - **Download Speed:** Data download speed from the WiFi network
 
 ### 2. Connected
 
-![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/3095427c-5025-43ac-a244-bdae6fd9f5b2)
+![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/58fae17e-1fdc-4d70-9c81-50a27d358183)
 
 #### General Information
 - Reiterates the information displayed on the main page
@@ -70,23 +71,30 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 
 #### Infrastructure
 - **Interfaces:** Refers to various network interfaces on your device, typically only showing WiFi interface information on this page
-- **Type:** Type of WiFi network standard (e.g., 802.11n, 802.11ac)
+- **Type:** Type of network interfaces (e.g., Ethernet, Token-Ring, FDDI, Wireless80211, DSL)
 
 ### 3. Networks
 
 #### Display of All Available Networks
 
-![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/fde65d29-bc76-4807-bc05-9f7b9cb4ec4a)
+- **Filtering:** Ability to filter data by WiFi network frequency (2.4 GHz, 5 GHz or 6 GHz)
+
+#### 3.1 Table
+![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/b276ff02-0942-463c-9c0d-9d7772f346e9)
 
 - **Sorting:** Ability to sort data by any column in the table (e.g., SSID, Signal Level, Distance)
 
-![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/a6226aa9-81e4-4660-9fe5-93fea83c995b)
+#### 3.2 Gaphs
+
+##### a) dBm
+![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/eef1de1b-61e0-4799-8b3f-373506f29d0b)
 
 - **Signal Strength Graph:** Displays the signal strength of each WiFi network in the table
   - **X-Axis:** SSID of the WiFi network
   - **Y-Axis:** Signal strength (in dBm)
 
-![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/a7fbd3d8-a596-48ea-8ef6-f1ef689e0d61)
+##### b) Distance
+![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/ae93c750-2536-4787-80a9-ba0826bb49dc)
 
 - **Distance Graph:** Displays the distance to each WiFi network in the table
   - **X-Axis:** SSID of the WiFi network
