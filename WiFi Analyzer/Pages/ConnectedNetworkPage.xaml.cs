@@ -1,6 +1,4 @@
 using WiFi_Analyzer.Helpers;
-using WiFi_Analyzer.Models;
-using WiFi_Analyzer.Services.ConnectedNetwork;
 using WiFi_Analyzer.ViewModels;
 
 namespace WiFi_Analyzer.Pages;

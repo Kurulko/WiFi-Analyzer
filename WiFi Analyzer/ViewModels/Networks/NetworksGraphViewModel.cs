@@ -1,11 +1,5 @@
 ﻿using Microcharts;
 using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.Models;
 using WiFi_Analyzer.Services.Networks;

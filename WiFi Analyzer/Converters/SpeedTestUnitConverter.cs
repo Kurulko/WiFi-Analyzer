@@ -1,10 +1,5 @@
 ﻿using SpeedTest.Net.Enums;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WiFi_Analyzer.Extensions;
 
 namespace WiFi_Analyzer.Converters;

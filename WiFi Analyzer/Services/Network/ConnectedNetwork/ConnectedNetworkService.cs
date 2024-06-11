@@ -1,17 +1,9 @@
 ﻿using NativeWifi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using WiFi_Analyzer.Models;
 using static NativeWifi.Wlan;
-using Windows.Media.Protection.PlayReady;
-using WiFi_Analyzer.Services.Networks;
-using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace WiFi_Analyzer.Services.ConnectedNetwork;
 
@@ -81,7 +73,6 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
         return wiFiNetwork;
     }
 
-
     public async Task<IPAddressInfo> GetConnectedIPAddressInfo()
     {
         IPAddressInfo iPAddressInfo = new ();
@@ -125,7 +116,6 @@ public class ConnectedNetworkService : NetworkService, IConnectedNetworkService
         using (HttpClient httpClient = new())
             return (await httpClient.GetStringAsync("http://icanhazip.com")).Trim();
     }
-
 
     public NetworkSecurityInfo GetConnectedNetworkSecurityInfo()
     {

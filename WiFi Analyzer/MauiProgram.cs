@@ -1,13 +1,7 @@
 ﻿using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
-using SkiaSharp.Views.Maui.Controls.Hosting;
 using WiFi_Analyzer.Helpers;
-using WiFi_Analyzer.Services.ConnectedNetwork;
-using WiFi_Analyzer.Services.Networks;
-using WiFi_Analyzer.Services.SpeedTest;
-using WiFi_Analyzer.ViewModels;
 using WiFi_Analyzer.Providers;
-using Microsoft.Extensions.Configuration;
 
 namespace WiFi_Analyzer;
 

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Dynamic.Core;
 using System.Collections;
 using WiFi_Analyzer.Enums;
-using WiFi_Analyzer.Models;
 using WiFi_Analyzer.Comparers;
 
 namespace WiFi_Analyzer.Extensions;

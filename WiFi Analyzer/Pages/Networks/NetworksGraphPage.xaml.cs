@@ -1,10 +1,3 @@
-using Microcharts.Maui;
-using Microcharts;
-using SkiaSharp;
-using WiFi_Analyzer.Models;
-using WiFi_Analyzer.Services.Networks;
-using System.Windows.Input;
-using System;
 using WiFi_Analyzer.Helpers;
 using WiFi_Analyzer.ViewModels;
 

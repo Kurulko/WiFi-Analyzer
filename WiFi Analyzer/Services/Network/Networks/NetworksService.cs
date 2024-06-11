@@ -1,12 +1,5 @@
-﻿using ManagedNativeWifi;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
 using NativeWifi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WiFi_Analyzer.Database;
 using WiFi_Analyzer.Extensions;
 using WiFi_Analyzer.Models;
